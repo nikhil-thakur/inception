@@ -1,18 +1,18 @@
 package interview.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Interview {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
     Long id;
 
@@ -21,4 +21,8 @@ public class Interview {
     String interviewer;
 
     String status;
+
+    @OneToOne()
+    @MapsId
+    Practice practice;
 }

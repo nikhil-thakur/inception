@@ -21,7 +21,7 @@ public class InterviewController {
     }
 
     @GetMapping
-    public Iterable<?> viewAllInterviews(){
+    public Iterable<Interview> viewAllInterviews(){
         return interviewRepository.findAll();
     }
 }
