@@ -19,7 +19,9 @@ public class Interview {
 
     String interviewee;
 
-    String interviewer;
+    @ManyToOne
+    @JoinColumn(name = "interviewer.id")
+    Interviewer interviewer;
 
     String status;
 

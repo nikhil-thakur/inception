@@ -1,25 +1,34 @@
 package interview.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Interviewer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    @JsonIgnore
+    private Long id;
 
-    String firstName;
 
-    String lastName;
+    private String firstName;
 
-    String feedBack;
+    private String lastName;
 
-    //List<Practice> practices;
+    /*@OneToMany
+    @JoinColumn(name = "name")
+    private Set<Practice> practices;*/
 }

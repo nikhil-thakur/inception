@@ -1,6 +1,7 @@
 package interview.service.impl;
 
 import interview.domain.Interview;
+import interview.domain.Interviewer;
 import interview.domain.Practice;
 import interview.repositories.InterviewRepository;
 import interview.repositories.PracticeRepository;
@@ -17,6 +18,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.constraints.AssertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,9 +53,10 @@ public class InterviewServiceImplTest {
         Practice practice = new Practice();
         practice.setName("Java");
 
+
         Interview interview = new Interview();
         interview.setInterviewee("Nikhil");
-        interview.setInterviewer("John");
+        interview.setInterviewer(Interviewer.builder().firstName("John").lastName("Smith").build());
         interview.setPractice(practice);
         interview.setStatus("Pass");
 
