@@ -2,14 +2,13 @@ package interview.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Practice {
 
     @Id
@@ -21,4 +20,6 @@ public class Practice {
      * Name of the practice such as Java or JavaScript
      */
     String name;
+
+
 }

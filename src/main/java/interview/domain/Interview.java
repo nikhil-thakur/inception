@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Interview {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
     Long id;
 
@@ -22,7 +23,7 @@ public class Interview {
 
     String status;
 
-    @OneToOne()
-    @MapsId
+    @ManyToOne
+    @JoinColumn(name = "name")
     Practice practice;
 }
