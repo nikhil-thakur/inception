@@ -1,12 +1,12 @@
 package interview.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+        import com.fasterxml.jackson.annotation.JsonIgnore;
+        import lombok.AllArgsConstructor;
+        import lombok.Builder;
+        import lombok.Data;
+        import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+        import javax.persistence.*;
 
 @Entity
 @Data
@@ -24,6 +24,6 @@ public class Interview {
     String status;
 
     @ManyToOne
-    @JoinColumn(name = "name")
+    @JoinColumn(name = "practice.id")
     Practice practice;
 }
