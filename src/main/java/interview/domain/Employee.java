@@ -28,6 +28,4 @@ public class Employee {
 
     private String title;
 
-    private String email;
-
 }

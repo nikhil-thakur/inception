@@ -20,7 +20,7 @@ public class Stage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
-    Long id;
+    private Long id;
 
     private String name;
 }
