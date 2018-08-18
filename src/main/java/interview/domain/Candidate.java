@@ -1,5 +1,6 @@
 package interview.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ import javax.persistence.Id;
 public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     Long id;
 
     private String firstName;
