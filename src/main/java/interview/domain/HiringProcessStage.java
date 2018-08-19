@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 public class HiringProcessStage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
     private Long id;
 
     @OneToOne
@@ -34,6 +33,6 @@ public class HiringProcessStage {
     @NotNull
     private Stage stage;
 
-    private boolean complete;
+    private boolean isComplete;
 
 }

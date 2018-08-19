@@ -5,7 +5,9 @@ import interview.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class HiringProcessService {
@@ -65,4 +67,35 @@ public class HiringProcessService {
     }
 
 
+    /**
+     * This method will update a hiring stage record.
+     * @param updates
+     * @return
+     */
+    public HiringProcessStage updateInterviewStage(StageUpdateDTO updates) {
+        Employee employee = new Employee();
+        if(updates.getEmployeeId()!=null){
+            Optional<Employee>  optionalEmployee =  employeeRepository.findById(updates.getEmployeeId());
+            employee = optionalEmployee.get();
+        }
+
+        HiringProcessStage hiringProcessStage = new HiringProcessStage();
+        Optional<HiringProcessStage> hiringProcessStageRepositoryById = hiringProcessStageRepository.findById(updates.getHiringProcessStageId());
+
+        // if optinalEmployee is empty and
+
+        if (hiringProcessStageRepositoryById.isPresent()) {
+           hiringProcessStage  = hiringProcessStageRepositoryById.get();
+            hiringProcessStage.setComplete(updates.isComplete());
+            hiringProcessStage.setEmployee(employee);
+            hiringProcessStageRepository.save(hiringProcessStage);
+        }
+        return hiringProcessStage;
+    }
+
+    public Iterable<HiringProcessStage> getAllStages(String candidateName, String email) {
+        Candidate byFirstNameAndEmail = candidateRepository.findByFirstNameAndEmail(candidateName, email);
+        List<HiringProcessStage> byCandidate = hiringProcessStageRepository.findByCandidate(byFirstNameAndEmail);
+        return byCandidate;
+    }
 }
