@@ -21,7 +21,7 @@ public class StageRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Autowired
-    StageRepository stageRepository;
+    private StageRepository stageRepository;
 
     @Test
     @Transactional
