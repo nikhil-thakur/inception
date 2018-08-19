@@ -17,7 +17,11 @@ public class StageDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    Long id;
+    private Long id;
 
-    String notes;
+    private String notes;
+
+    @OneToOne
+    @JoinColumn(name = "hiring_process_stage.id")
+    private HiringProcessStage hiringProcessStage;
 }

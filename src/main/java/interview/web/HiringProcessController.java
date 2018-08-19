@@ -1,5 +1,6 @@
 package interview.web;
 
+import interview.domain.Candidate;
 import interview.domain.HiringProcessStage;
 import interview.service.impl.HiringProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,10 @@ public class HiringProcessController {
     @PostMapping(value="/{id}")
     public HiringProcessStage persist(@PathVariable(value = "id") Long id){
         return hiringProcessService.persist(id);
+    }
+
+    @PostMapping(value = "/candidate")
+    public Candidate persistCandidate(@RequestBody Candidate candidate){
+        return hiringProcessService.persistCandidateAndInitiateInterviewStageOne(candidate);
     }
 }

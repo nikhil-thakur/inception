@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @Builder
 public class Candidate {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     Long id;
 

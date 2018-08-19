@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -20,21 +21,19 @@ public class HiringProcessStage {
     private Long id;
 
     @OneToOne
-    @MapsId
+    @JoinColumn(name = "candidate.id")
+    @NotNull
     private Candidate candidate;
 
     @OneToOne
-    @MapsId
+    @JoinColumn(name = "employee.id")
     private Employee employee;
 
     @OneToOne
-    @MapsId
+    @JoinColumn(name = "stage.name")
+    @NotNull
     private Stage stage;
 
     private boolean complete;
-
-  /*  @OneToOne
-    @MapsId
-    StageDetail stageDetail;*/
 
 }
