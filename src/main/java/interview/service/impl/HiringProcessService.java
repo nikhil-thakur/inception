@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Service
 public class HiringProcessService {
-    public static final String STAGE_ONE_NAME = "HR Call";
+
     @Autowired
     private HiringProcessStageRepository hiringProcessStageRepository;
 
@@ -22,79 +22,63 @@ public class HiringProcessService {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private StageDetailsRepository stageDetailsRepository;
-
-    @Autowired
     private StageRepository stageRepository;
 
-    public Iterable<HiringProcessStage> findAll(){
-        return hiringProcessStageRepository.findAll();
-    }
-
-    public HiringProcessStage persist(long candidateId){
-        Optional<Candidate> candidate = candidateRepository.findById(candidateId);
-        Optional<Employee> employee = employeeRepository.findById(1l);
-        Optional<Stage> stage = stageRepository.findById(1005l);
-
-        StageDetail stageDetails = StageDetail.builder().notes("asjbadkjbskdbaskjbd").build();
-
-        HiringProcessStage hiringProcessLifecycle = new HiringProcessStage();
-
-        if (candidate.isPresent()) hiringProcessLifecycle.setCandidate(candidate.get());
-        if (employee.isPresent()) hiringProcessLifecycle.setEmployee(employee.get());
-        if (stage.isPresent()) hiringProcessLifecycle.setStage(stage.get());
-
-        return hiringProcessStageRepository.save(hiringProcessLifecycle);
-    }
-
-    public Candidate persistCandidateAndInitiateInterviewStageOne(Candidate candidate){
-        Candidate savedCandidate = candidateRepository.save(candidate);
-        initiateAndCompleteInterviewStageOne(savedCandidate);
-
-        return savedCandidate;
-    }
-
-    private void initiateAndCompleteInterviewStageOne(Candidate candidate) {
+    /**
+     * This will initiate a new interview stage. Example Hr Call, Remote peer programing etc
+     * @param stageName name of the stage that is needed to be initiated
+     * @param candidate Candidate whose interview stage needs to be initiated
+     * @return record of the hiring process stage that gets created
+     */
+    public HiringProcessStage initiateInterviewStage(String stageName, Candidate candidate) {
         HiringProcessStage hiringProcessStage = new HiringProcessStage();
-        hiringProcessStage.setCandidate(candidate);
 
-        Stage stage = stageRepository.findByName(STAGE_ONE_NAME);
+        hiringProcessStage.setCandidate(candidate);
+        Stage stage = stageRepository.findByName(stageName);
         hiringProcessStage.setStage(stage);
 
-        hiringProcessStage.setComplete(true);
+        return hiringProcessStageRepository.save(hiringProcessStage);
+    }
 
-        hiringProcessStageRepository.save(hiringProcessStage);
+    /**
+     * This will initiate a new interview stage. Example Hr Call, Remote peer programing etc. Will find the candidate
+     * for the given credentials and then call the method initiateInterviewStage(String stageName, Candidate candidate)
+     * @param stageName name of the stage that is needed to be initiated
+     * @param firstName Candidate's first name
+     * @param email Candidate's email
+     * @return record of the hiring process stage that gets created
+     */
+    public HiringProcessStage initiateInterviewStage(String stageName, String firstName, String email) {
+        return initiateInterviewStage(stageName, candidateRepository.findByFirstNameAndEmail(firstName, email));
     }
 
 
     /**
-     * This method will update a hiring stage record.
-     * @param updates
-     * @return
+     * This method will update a hiring stage record. Only Employee details and stage completeness can be updated
+     * @param updates updates for the record
+     * @return Hiring Process stage after the update is done
      */
     public HiringProcessStage updateInterviewStage(StageUpdateDTO updates) {
-        Employee employee = new Employee();
-        if(updates.getEmployeeId()!=null){
-            Optional<Employee>  optionalEmployee =  employeeRepository.findById(updates.getEmployeeId());
-            employee = optionalEmployee.get();
-        }
-
         HiringProcessStage hiringProcessStage = new HiringProcessStage();
         Optional<HiringProcessStage> hiringProcessStageRepositoryById = hiringProcessStageRepository.findById(updates.getHiringProcessStageId());
-
-        // if optinalEmployee is empty and
 
         if (hiringProcessStageRepositoryById.isPresent()) {
            hiringProcessStage  = hiringProcessStageRepositoryById.get();
             hiringProcessStage.setComplete(updates.isComplete());
-            hiringProcessStage.setEmployee(employee);
+            hiringProcessStage.setEmployee(employeeRepository.findById(updates.getEmployeeId()).get());
             hiringProcessStageRepository.save(hiringProcessStage);
         }
         return hiringProcessStage;
     }
 
-    public Iterable<HiringProcessStage> getAllStages(String candidateName, String email) {
-        Candidate byFirstNameAndEmail = candidateRepository.findByFirstNameAndEmail(candidateName, email);
+    /**
+     * Fetch all the interviews conducted for a Candidate. Taking the first name and email, makes the candidate unique
+     * @param firstName firstNameOfTheCandidate
+     * @param email email address of the candidate
+     * @return List of all the interviews conducted for a candidate
+     */
+    public Iterable<HiringProcessStage> getAllStages(String firstName, String email) {
+        Candidate byFirstNameAndEmail = candidateRepository.findByFirstNameAndEmail(firstName, email);
         List<HiringProcessStage> byCandidate = hiringProcessStageRepository.findByCandidate(byFirstNameAndEmail);
         return byCandidate;
     }

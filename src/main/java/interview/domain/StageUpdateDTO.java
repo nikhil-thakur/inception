@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 public class StageUpdateDTO {
     private Long hiringProcessStageId;
 
-    private boolean complete;
-
     private Long employeeId;
 
     private boolean isComplete;
